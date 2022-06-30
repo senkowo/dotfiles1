@@ -1,0 +1,10 @@
+
+
+export EDITOR=${EDITOR:-/bin/nvim}
+
+alias pluginstall-all="~/.local/bin/pluginstall-all.sh"
+alias recompiledwm='doas emerge -q dwm'
+alias recompilest='doas emerge -q st'
+alias recompileurxvt='xrdb ~/.Xresources'
+alias doom='~/.emacs.d/bin/doom'
+alias ls='ls --color'
