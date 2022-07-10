@@ -20,9 +20,6 @@ fi
 # Autocompletion
 complete -cf doas 
 
-# PATH
-export PATH="$HOME/.local/bin:$PATH"
-
 # aliases
 #alias pluginstall-all="~/.local/bin/pluginstall-all.sh"
 #alias recompiledwm='doas emerge -q dwm'

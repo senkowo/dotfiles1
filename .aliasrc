@@ -1,10 +1,25 @@
 
 
+# default editor
 export EDITOR=${EDITOR:-/bin/nvim}
 
+# add to path
+export PATH="$HOME/.local/bin:$PATH"
+
+# more exports
+#export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+
+# aliases
 alias pluginstall-all="~/.local/bin/pluginstall-all.sh"
 alias recompiledwm='doas emerge -q dwm'
 alias recompilest='doas emerge -q st'
 alias recompileurxvt='xrdb ~/.Xresources'
 alias doom='~/.emacs.d/bin/doom'
-alias ls='ls --color'
+#alias ls='ls --color'
+
+# more aliases
+alias l='exa'
+alias la='exa -a'
+alias ll='exa -lah'
+alias ls='exa --color=auto'
+

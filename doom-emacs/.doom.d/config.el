@@ -23,7 +23,7 @@
 ;;
 ;(setq doom-font (font-spec :family "Fira Code" :size 13 :weight 'regular)
 ;      doom-variable-pitch-font (font-spec :family "Hack" :size 14))
-(setq doom-font (font-spec :family "Hack" :size 13 :weight 'regular)
+(setq doom-font (font-spec :family "Jetbrains Mono" :size 13 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Hack" :size 14)) ;; Non-monospace!
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -34,7 +34,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-laserwave)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -42,7 +42,7 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/Documents/org/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -79,7 +79,32 @@
 
 
 ;; twittering-mode
-;(after! twittering-mode
-(setq twittering-icon-mode t
+(after! twittering-mode
+  (setq twittering-icon-mode t
       twittering-convert-fix-size 48
-      twittering-use-icon-storage t)
+      twittering-use-icon-storage t))
+
+;; mu4e - msmtp (SMTP forwarder)
+; (mu init --my-address=corgiboi9898@gmail.com)
+(after! mu4e
+  (setq sendmail-program "/usr/bin/msmtp"
+      send-mail-function #'smtpmail-send-it
+      message-sendmail-f-is-evil t
+      message-sendmail-extra-arguments '("--read-envelope-from")
+      message-send-mail-function #'message-send-mail-with-sendmail)
+  (set-email-account!
+   "gmail"
+   '((mu4e-sent-folder       . "/[Gmail]/Sent Mail")
+     (mu4e-trash-folder      . "/[Gmail]/Bin")
+     (smtpmail-smtp-user     . "corgiboi9898@gmail.com"))
+   t)
+  (setq mu4e-get-mail-command "mbsync gmail"
+        ;; get emails and index every 5 minutes
+        mu4e-update-interval 300
+	;; send emails with format=flowed
+	mu4e-compose-format-flowed t
+	;; no need to run cleanup after indexing for gmail
+	mu4e-index-cleanup nil
+	mu4e-index-lazy-check t
+        ;; more sensible date format
+        mu4e-headers-date-format "%d.%m.%y"))

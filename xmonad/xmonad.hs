@@ -10,9 +10,11 @@ import XMonad.Hooks.ManageDocks -- xmobar no longer behind
 import XMonad.Hooks.DynamicLog -- xmobar workspaces; output info to bar
 import XMonad.Util.Run -- spawnPipe
 import XMonad.Util.SpawnOnce -- spawnOnce
-import Graphics.X11.ExtraTypes.XF86 -- XF86 keys
---import XMonad.Actions.SpawnOn
+import XMonad.Actions.SpawnOn -- spawn apps in certain wkspaces
 import XMonad.Actions.CycleWS -- toggle workspaces
+import XMonad.Layout.Spacing -- gaps
+import Graphics.X11.ExtraTypes.XF86 -- XF86 keys
+import XMonad.Hooks.EwmhDesktops
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -106,6 +108,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     , ((modm              , xK_period), sendMessage (IncMasterN (-1))) -- Deincrement the number of windows in the master area
 
+	, ((modm			  , xK_b	 ), sendMessage ToggleStruts) -- toggle status bar
+
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess)) -- Quit xmonad
 
     , ((modm              , xK_q     ), spawn "xmonad --recompile; killall xmobar; xmonad --restart") -- Restart xmonad
@@ -150,15 +154,8 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 ------------------------------------------------------------------------
 -- Layouts:
 
--- You can specify and transform your layouts by modifying these values.
--- If you change layout bindings be sure to use 'mod-shift-space' after
--- restarting (with 'mod-q') to reset your layout state to the new
--- defaults, as xmonad preserves your old layout settings by default.
---
--- The available layouts.  Note that each layout is separated by |||,
--- which denotes layout choice.
---
-myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
+myLayout = smartSpacing 4
+  $avoidStruts (tiled ||| Mirror tiled ||| Full)
   where
      -- default tiling algorithm partitions the screen into two panes
      tiled   = Tall nmaster delta ratio
@@ -233,14 +230,8 @@ myStartupHook = do
 --
 main = do
 		xmproc <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobar-conf"
-		xmonad $ docks $ defaults xmproc 
--- A structure containing your configuration settings, overriding
--- fields in the default config. Any you don't override, will
--- use the defaults defined in xmonad/XMonad/Config.hs
---
--- No need to modify this.
---
-defaults xmproc = def {
+		xmonad $ docks $ def {
+
       -- simple stuff
         terminal           = myTerminal,
         focusFollowsMouse  = myFocusFollowsMouse,
@@ -266,7 +257,7 @@ defaults xmproc = def {
 				, ppOrder = \(ws:_) -> [ws]
 				},
         startupHook        = myStartupHook
-    }
+	}
 
 -- | Finally, a copy of the default bindings in simple textual tabular format.
 help :: String

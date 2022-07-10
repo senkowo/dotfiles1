@@ -1,24 +1,29 @@
 
 
-!!-----------------
-!![-- General --]!
-!!-----------------
+!!--------------------
+!![-- Appearance --]!
+!!--------------------
 
 ! Fonts
-URxvt.font: xft:Hack:size=12
-! Setting letterSpace to -1 brings letters closer together
-URxvt.letterSpace: 0
-
+!URxvt.font: xft:Hack:size=12 
+!URxvt.font: xft:Terminus:size=13
+!URxvt.font: xft:CyberpunkWaifus:size=14
+URxvt.font: xft:Liberation Mono:size=12 
+!URxvt.font: xft:bitocrafull:pixelsize=16:style=Regular
+!URxvt.font: xft:Gohu GohuFont-12
+!URxvt.letterSpace:-6
+!URxvt.letterSpace: 0
 ! Transparency
 URxvt*depth: 32
 URxvt.background: [65]#000000
-
 ! Scrollbar
 URxvt.scrollstyle: plain
 URxvt.scrollBar: false
+! Misc
+URxvt.internalBorder: 4
+URxvt.cursorBlink: false
+URxvt.urgentOnBell: true
 
-! Ranger Previews
-!URxvt*.termName: urxvt-unicode-256color
 
 
 !!---------------------
@@ -29,42 +34,62 @@ URxvt.scrollBar: false
 !  + To browse and select pre-built themes: 
 !  |=> Scheme Browser (tab) -> Apply Scheme -> Export (tab) -> Export -> copy
 
-
-
-! special
-*.foreground:   #ffffff
-*.background:   #000000
-*.cursorColor:  #ffffff
-
+! Color scheme by:
+! |> u/EmpressNoodle
+! |-> https://github.com/elenapan/dotfiles/blob/master/.xfiles/amarena
+!
+*background:	#1A2026
+*foreground:	#FFFFFF
+*cursorColor:	#FFFFFF
 ! black
-*.color0:       #151515
-*.color8:       #505450
-
+*color0:	#242D35
+*color8:	#526170
 ! red
-*.color1:       #bf7979
-*.color9:       #f4a45f
-
+*color1:	#FB6396
+*color9:	#F92D72
 ! green
-*.color2:       #97b26b
-*.color10:      #c5f779
-
+*color2:	#94CF95
+*color10:	#6CCB6E
 ! yellow
-*.color3:       #cdcda1
-*.color11:      #ffffaf
-
+*color3:	#F692B2
+*color11:	#F26190
 ! blue
-*.color4:       #4a5463
-*.color12:      #7d8794
-
+*color4:	#6EC1D6
+*color12:	#4CB9D6
 ! magenta
-*.color5:       #9c3885
-*.color13:      #e628ba
-
+*color5:	#CD84C8
+*color13:	#C269BC
 ! cyan
-*.color6:       #88aadd
-*.color14:      #99ccff
-
+*color6:	#7FE4D2
+*color14:	#58D6BF
 ! white
-*.color7:       #ffffff
-*.color15:      #dedede
+*color7:	#FFFFFF
+*color15:	#F4F5F2
+
+
+
+!!-------------------------
+!![-- Perl Extentions --]!
+!!-------------------------
+
+URxvt.perl-ext-common: default,font-size
+
+URxvt.keysym.C-j:     font-size:decrease
+URxvt.keysym.C-k:      font-size:increase
+URxvt.keysym.C-equal:     font-size:reset
+
+
+
+!!-------------------
+!![-- Functions --]!
+!!-------------------
+
+URxvt.keysym.Shift-Control-c: eval:paste_cliboard
+URxvt.keysym.Shift-Control-v: eval:selection_to_clipboard
+
+
+
+
+
+
 
