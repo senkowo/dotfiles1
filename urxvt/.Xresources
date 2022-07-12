@@ -6,9 +6,9 @@
 
 ! Fonts
 !URxvt.font: xft:Hack:size=12 
-!URxvt.font: xft:Terminus:size=13
+URxvt.font: xft:Terminus:size=13
 !URxvt.font: xft:CyberpunkWaifus:size=14
-URxvt.font: xft:Liberation Mono:size=12 
+!URxvt.font: xft:Liberation Mono:size=12 
 !URxvt.font: xft:bitocrafull:pixelsize=16:style=Regular
 !URxvt.font: xft:Gohu GohuFont-12
 !URxvt.letterSpace:-6

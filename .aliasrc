@@ -8,6 +8,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # more exports
 #export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
 
 # aliases
 alias pluginstall-all="~/.local/bin/pluginstall-all.sh"

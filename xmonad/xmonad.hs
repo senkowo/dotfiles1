@@ -23,7 +23,7 @@ import qualified Data.Map        as M
 -- General
 -------------
 
-myTerminal      = "urxvt"
+myTerminal      = "urxvtc"
 
 myFocusFollowsMouse :: Bool -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse = False
@@ -216,12 +216,15 @@ myEventHook = mempty
 -- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
 -- per-workspace layout choices.
 --
--- By default, do nothing.
 myStartupHook = do
 		spawnOnce "~/.local/bin/pipewire-start.sh &"
 		spawnOnce "~/.fehbg &"
 		spawnOnce "picom --experimental-backends &"
 		spawnOnce "xsetroot -cursor_name left_ptr &"
+		spawnOnce "urxvtd --quiet --opendisplay --fork &"
+	-- to fix bug
+		spawnOnce "pactl set-sink-volume @DEFAULT_SINK@ +1% &"
+		spawnOnce "pactl set-sink-volume @DEFAULT_SINK@ +2% &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
