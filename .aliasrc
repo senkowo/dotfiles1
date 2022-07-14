@@ -1,7 +1,7 @@
 
 
 # default editor
-export EDITOR=${EDITOR:-/bin/nvim}
+export EDITOR=nvim
 
 # add to path
 export PATH="$HOME/.local/bin:$PATH"

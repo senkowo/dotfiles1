@@ -3,27 +3,43 @@
 -- Imports 
 -------------
 
+  -- base
 import XMonad
+import System.Exit (exitSuccess)
+import qualified XMonad.StackSet as W
+
+  -- data
 import Data.Monoid
-import System.Exit
-import XMonad.Hooks.ManageDocks -- xmobar no longer behind
-import XMonad.Hooks.DynamicLog -- xmobar workspaces; output info to bar
-import XMonad.Util.Run -- spawnPipe
-import XMonad.Util.SpawnOnce -- spawnOnce
+import qualified Data.Map as M
+
+  -- actions
 import XMonad.Actions.SpawnOn -- spawn apps in certain wkspaces
 import XMonad.Actions.CycleWS -- toggle workspaces
+
+  -- layout
 import XMonad.Layout.Spacing -- gaps
-import Graphics.X11.ExtraTypes.XF86 -- XF86 keys
+
+  -- hooks
+import XMonad.Hooks.ManageDocks -- xmobar no longer behind
+import XMonad.Hooks.DynamicLog -- xmobar workspaces; output info to bar
 import XMonad.Hooks.EwmhDesktops
 
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
+  -- utilities
+import XMonad.Util.Run -- spawnPipe
+import XMonad.Util.SpawnOnce -- spawnOnce
+
+import Graphics.X11.ExtraTypes.XF86 -- XF86 keys
+
 
 -- 
 -- General
 -------------
 
-myTerminal      = "urxvtc"
+myFont :: String
+myFont = "xft:Terminus:regular:size=9:antialias=true:hinting:true"
+
+myTerminal :: String
+myTerminal = "urxvtc"
 
 myFocusFollowsMouse :: Bool -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse = False
@@ -31,13 +47,18 @@ myFocusFollowsMouse = False
 myClickJustFocuses :: Bool -- Whether clicking on a window to focus also passes the click to the window
 myClickJustFocuses = False
 
-myBorderWidth   = 2 -- Width of the window border in pixels.
+myBorderWidth :: Dimension
+myBorderWidth = 2 -- Width of the window border in pixels.
 
-myModMask       = mod4Mask
+myModMask :: KeyMask
+myModMask = mod4Mask
 
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
-myWorkspaces    = ["1","2","3","4","5","6","7","8","9"]
+myWorkspaces :: [String]
+myWorkspaces = ["1","2","3","4","5","6","7","8","9"]
 
+myNormalBorderColor :: String
+myFocusedBorderColor :: String
 myNormalBorderColor  = "#a8bfbc" -- ( unfocused
 myFocusedBorderColor = "#57bd61" -- ( focused
 -- #dddddd
@@ -59,62 +80,39 @@ myFocusedBorderColor = "#57bd61" -- ( focused
 -------------------
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
-
-    [ ((modm,				xK_Return), spawn $ XMonad.terminal conf) -- launch a terminal
-
+    [ ((modm,               xK_Return), spawn $ (myTerminal)) -- launch a terminal
     , ((modm,               xK_p     ), spawn "dmenu_run") -- launch dmenu
-
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun") -- launch gmrun
 
-	, ((0 ,   xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
-
-	, ((0 ,   xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
-
-	, ((0 ,          xF86XK_AudioMute), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
-
-	, ((0 ,    xF86XK_MonBrightnessUp), spawn "xbacklight +10")
-
-	, ((0 ,  xF86XK_MonBrightnessDown), spawn "xbacklight -10")
+    , ((0 ,   xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
+    , ((0 ,   xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
+    , ((0 ,          xF86XK_AudioMute), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+    , ((0 ,    xF86XK_MonBrightnessUp), spawn "xbacklight +10")
+    , ((0 ,  xF86XK_MonBrightnessDown), spawn "xbacklight -10")
 
     , ((modm .|. shiftMask, xK_c     ), kill) -- close focused window
-
     , ((modm,               xK_space ), sendMessage NextLayout) -- Rotate through the available layout algorithms
-
     , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf) --  Reset the layouts on the current workspace to default
-
     , ((modm,               xK_n     ), refresh) -- Resize viewed windows to the correct size
 
     , ((modm,               xK_Tab   ), toggleWS) -- Move focus to the next window
-
     , ((modm,               xK_j     ), windows W.focusDown) -- Move focus to the next window
-
     , ((modm,               xK_k     ), windows W.focusUp  ) -- Move focus to the previous window
-
     , ((modm,               xK_m     ), windows W.focusMaster  ) -- Move focus to the master window
 
     , ((modm .|. shiftMask, xK_Return), windows W.swapMaster) -- Swap the focused window and the master window
-
     , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  ) -- Swap the focused window with the next window
-
     , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    ) -- Swap the focused window with the previous window
 
     , ((modm,               xK_h     ), sendMessage Shrink) -- Shrink the master area
-
     , ((modm,               xK_l     ), sendMessage Expand) -- Expand the master area
-
     , ((modm,               xK_t     ), withFocused $ windows . W.sink) -- Push window back into tiling
-
     , ((modm              , xK_comma ), sendMessage (IncMasterN 1)) -- Increment the number of windows in the master area
-
     , ((modm              , xK_period), sendMessage (IncMasterN (-1))) -- Deincrement the number of windows in the master area
 
-	, ((modm			  , xK_b	 ), sendMessage ToggleStruts) -- toggle status bar
-
+    , ((modm              , xK_b     ), sendMessage ToggleStruts) -- toggle status bar
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess)) -- Quit xmonad
-
     , ((modm              , xK_q     ), spawn "xmonad --recompile; killall xmobar; xmonad --restart") -- Restart xmonad
-
-    , ((modm .|. shiftMask, xK_slash ), spawn ("echo \"" ++ help ++ "\" | xmessage -file -")) -- message of default keybinds
     ]
     ++
 
@@ -217,98 +215,46 @@ myEventHook = mempty
 -- per-workspace layout choices.
 --
 myStartupHook = do
-		spawnOnce "~/.local/bin/pipewire-start.sh &"
-		spawnOnce "~/.fehbg &"
-		spawnOnce "picom --experimental-backends &"
-		spawnOnce "xsetroot -cursor_name left_ptr &"
-		spawnOnce "urxvtd --quiet --opendisplay --fork &"
-	-- to fix bug
-		spawnOnce "pactl set-sink-volume @DEFAULT_SINK@ +1% &"
-		spawnOnce "pactl set-sink-volume @DEFAULT_SINK@ +2% &"
+        spawnOnce "~/.local/bin/pipewire-start.sh &"
+        spawnOnce "~/.fehbg &"
+        spawnOnce "picom --experimental-backends &"
+        spawnOnce "xsetroot -cursor_name left_ptr &"
+        spawnOnce "urxvtd --quiet --opendisplay --fork &"
+    -- to fix bug
+        spawnOnce "pactl set-sink-volume @DEFAULT_SINK@ +1% &"
+        spawnOnce "pactl set-sink-volume @DEFAULT_SINK@ +2% &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
 
 -- Run xmonad with the settings you specify. No need to modify this.
 --
+main :: IO ()
 main = do
-		xmproc <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobar-conf"
-		xmonad $ docks $ def {
-
-      -- simple stuff
-        terminal           = myTerminal,
-        focusFollowsMouse  = myFocusFollowsMouse,
-        clickJustFocuses   = myClickJustFocuses,
-        borderWidth        = myBorderWidth,
-        modMask            = myModMask,
-        workspaces         = myWorkspaces,
-        normalBorderColor  = myNormalBorderColor,
-        focusedBorderColor = myFocusedBorderColor,
+    xmproc <- spawnPipe "xmobar -x 0 ~/.config/xmobar/xmobar-conf"
+    xmonad $ ewmhFullscreen $ ewmh $ docks $ def
+        { terminal           = myTerminal
+        , focusFollowsMouse  = myFocusFollowsMouse
+        , clickJustFocuses   = myClickJustFocuses
+        , borderWidth        = myBorderWidth
+        , modMask            = myModMask
+        , workspaces         = myWorkspaces
+        , normalBorderColor  = myNormalBorderColor
+        , focusedBorderColor = myFocusedBorderColor
 
       -- key bindings
-        keys               = myKeys,
-        mouseBindings      = myMouseBindings,
+        , keys               = myKeys
+        , mouseBindings      = myMouseBindings
 
       -- hooks, layouts
-        layoutHook         = myLayout,
-        manageHook         = myManageHook,
-        handleEventHook    = myEventHook,
---		logHook            = myLogHook,
-		logHook = dynamicLogWithPP $ xmobarPP 
-				{ ppOutput = hPutStrLn xmproc
-				, ppSep = "   "
-				, ppOrder = \(ws:_) -> [ws]
-				},
-        startupHook        = myStartupHook
-	}
-
--- | Finally, a copy of the default bindings in simple textual tabular format.
-help :: String
-help = unlines ["The default modifier key is 'alt'. Default keybindings:",
-    "",
-    "-- launching and killing programs",
-    "mod-Shift-Enter  Launch xterminal",
-    "mod-p            Launch dmenu",
-    "mod-Shift-p      Launch gmrun",
-    "mod-Shift-c      Close/kill the focused window",
-    "mod-Space        Rotate through the available layout algorithms",
-    "mod-Shift-Space  Reset the layouts on the current workSpace to default",
-    "mod-n            Resize/refresh viewed windows to the correct size",
-    "",
-    "-- move focus up or down the window stack",
-    "mod-Tab        Move focus to the next window",
-    "mod-Shift-Tab  Move focus to the previous window",
-    "mod-j          Move focus to the next window",
-    "mod-k          Move focus to the previous window",
-    "mod-m          Move focus to the master window",
-    "",
-    "-- modifying the window order",
-    "mod-Return   Swap the focused window and the master window",
-    "mod-Shift-j  Swap the focused window with the next window",
-    "mod-Shift-k  Swap the focused window with the previous window",
-    "",
-    "-- resizing the master/slave ratio",
-    "mod-h  Shrink the master area",
-    "mod-l  Expand the master area",
-    "",
-    "-- floating layer support",
-    "mod-t  Push window back into tiling; unfloat and re-tile it",
-    "",
-    "-- increase or decrease number of windows in the master area",
-    "mod-comma  (mod-,)   Increment the number of windows in the master area",
-    "mod-period (mod-.)   Deincrement the number of windows in the master area",
-    "",
-    "-- quit, or restart",
-    "mod-Shift-q  Quit xmonad",
-    "mod-q        Restart xmonad",
-    "mod-[1..9]   Switch to workSpace N",
-    "",
-    "-- Workspaces & screens",
-    "mod-Shift-[1..9]   Move client to workspace N",
-    "mod-{w,e,r}        Switch to physical/Xinerama screens 1, 2, or 3",
-    "mod-Shift-{w,e,r}  Move client to screen 1, 2, or 3",
-    "",
-    "-- Mouse bindings: default actions bound to mouse events",
-    "mod-button1  Set the window to floating mode and move by dragging",
-    "mod-button2  Raise the window to the top of the stack",
-    "mod-button3  Set the window to floating mode and resize by dragging"]
+        , layoutHook         = myLayout
+        , manageHook         = myManageHook
+        , handleEventHook    = myEventHook
+--      , logHook            = myLogHook
+        , logHook = dynamicLogWithPP $ xmobarPP
+            { ppOutput = hPutStrLn xmproc
+            , ppSep = "   "
+            , ppOrder = \(ws:_) -> [ws]
+            }
+        , startupHook        = myStartupHook
+    }
