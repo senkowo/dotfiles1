@@ -10,8 +10,8 @@ PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magent
 
 # History in cache directory:
 HISTFILE=~/.cache/zsh/history		# note: do "mkdir -p ~/.cache/zsh/" first!
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=100000
+SAVEHIST=100000
 
 # vi mode
 bindkey -v

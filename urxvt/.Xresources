@@ -5,17 +5,15 @@
 !!--------------------
 
 ! Fonts
-!URxvt.font: xft:Hack:size=12 
-URxvt.font: xft:Terminus:size=13
-!URxvt.font: xft:CyberpunkWaifus:size=14
-!URxvt.font: xft:Liberation Mono:size=12 
-!URxvt.font: xft:bitocrafull:pixelsize=16:style=Regular
-!URxvt.font: xft:Gohu GohuFont-12
-!URxvt.letterSpace:-6
+!URxvt.font: xft:Hack:size=11
+!URxvt.font: xft:Terminus:size=12
+!URxvt.font: xft:CyberpunkWaifus:size=13
+URxvt.font: xft:Liberation Mono:size=12 
+!URxvt.letterSpace:-1
 !URxvt.letterSpace: 0
 ! Transparency
-URxvt*depth: 32
-URxvt.background: [65]#000000
+!URxvt*depth: 32
+!URxvt.background: [65]#000000
 ! Scrollbar
 URxvt.scrollstyle: plain
 URxvt.scrollBar: false
@@ -38,7 +36,9 @@ URxvt.urgentOnBell: true
 ! |> u/EmpressNoodle
 ! |-> https://github.com/elenapan/dotfiles/blob/master/.xfiles/amarena
 !
-*background:	#1A2026
+
+!*background:	#1A2026
+*background:	#191d1f
 *foreground:	#FFFFFF
 *cursorColor:	#FFFFFF
 ! black

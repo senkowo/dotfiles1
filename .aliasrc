@@ -5,10 +5,14 @@ export EDITOR=nvim
 
 # add to path
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 
-# more exports
+## more exports
+#
+# makes Quaver run
 #export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
-export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
+# prevents fullscreen from minimizing?
+#export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
 
 # aliases
 alias pluginstall-all="~/.local/bin/pluginstall-all.sh"
