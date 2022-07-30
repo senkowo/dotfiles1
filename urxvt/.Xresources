@@ -5,10 +5,10 @@
 !!--------------------
 
 ! Fonts
-!URxvt.font: xft:Hack:size=11
+URxvt.font: xft:Hack:size=11
 !URxvt.font: xft:Terminus:size=12
 !URxvt.font: xft:CyberpunkWaifus:size=13
-URxvt.font: xft:Liberation Mono:size=12 
+!URxvt.font: xft:Liberation Mono:size=11
 !URxvt.letterSpace:-1
 !URxvt.letterSpace: 0
 ! Transparency
