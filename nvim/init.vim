@@ -18,4 +18,8 @@ Plug 'scrooloose/nerdtree'
 call plug#end()
 
 
+
 let g:Hexokinase_highlighters = ['backgroundfull']
+
+let g:airline_powerline_fonts = 1
+

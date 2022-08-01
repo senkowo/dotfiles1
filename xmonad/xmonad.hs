@@ -7,7 +7,7 @@ import XMonad
 
 import XMonad.Hooks.EwmhDesktops
 
-import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.DynamicLog 
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.ManageDocks (manageDocks) -- no overlap bar
@@ -20,6 +20,7 @@ import XMonad.Util.SpawnOnce (spawnOnce) -- startup
 import XMonad.Util.Loggers
 
 import XMonad.Actions.CycleWS (toggleWS, nextWS, prevWS)
+import XMonad.Actions.WindowBringer
 
 import XMonad.Layout.NoBorders (smartBorders)
 
@@ -57,21 +58,34 @@ myFocusedColor = "#1e9c8f"
 myKeys :: [(String, X ())]
 myKeys = 
 	[ ("M-S-z", spawn "xscreensaver-command -lock")
-	, ("M-C-s", unGrab *> spawn "scrot -s -e 'xclip -selection clipboard -target image/png -in $f'")	
-	, ("M-f"  , spawn "librewolf"				 )
+	, ("M-C-s", unGrab *> spawn "scrot -s -f -l style=dash '/home/senko/Pictures/Screenshots/%F-%T-$wx$h.png' -e 'xclip -selection clipboard -target image/png -in $f'")
 
-	, ("M-<Tab>", toggleWS						 )
-	, ("M-l"	, nextWS						)
-	, ("M-h"	, prevWS						)
-	, ("M-S-l"	, sendMessage Expand			)
-	, ("M-S-h"	, sendMessage Shrink			)
+	-- spawn applications using emacs-keybindings
+	, ("M-u l"  , spawn "librewolf"		)
+	, ("M-u s"  , spawn "steam"			)
+	, ("M-u d"  , spawn "discord"		)
+	, ("M-u k"  , spawn "keepassxc"		)
+	, ("M-u f"  , spawn "firefox-bin"	)
+	, ("M-u m"  , spawn "spotify"		)
+
+	-- workspaces and windows
+	, ("M-<Tab>", toggleWS				)
+	, ("M-l"	, nextWS				)
+	, ("M-h"	, prevWS				)
+	, ("M-S-l"	, sendMessage Expand	)
+	, ("M-S-h"	, sendMessage Shrink	)
+	, ("M-S-<Return>", windows W.swapMaster)
+	, ("M-S-m", windows W.swapMaster)
+
+	-- misc
+	, ("M-<Return>"	, spawn (myTerminal) )
+	, ("M-i"		, gotoMenu )
+	, ("M-q"        , spawn "xmonad --recompile; killall xmobar; xmonad --restart" )
+
 	-- don't know what this does, move it elsewhere (originally M-n)
-	, ("M-S-n"	, refresh						)
+	, ("M-S-n"	, refresh	)
 
-	, ("M-<Return>"   , spawn (myTerminal)			)
-	, ("M-S-<Return>" , windows W.swapMaster		)
-	, ("M-q"          , spawn "xmonad --recompile; killall xmobar; xmonad --restart" )
-
+	-- system keys
 	, ("<XF86MonBrightnessUp>"   , spawn "xbacklight +10")
 	, ("<XF86MonBrightnessDown>" , spawn "xbacklight -10")
 	, ("<XF86AudioRaiseVolume>"  , spawn "pactl set-sink-volume 0 +5%")
@@ -84,12 +98,16 @@ myKeys =
 ------------------------------------------------------------------
 --
 
+-- use xprop
 
 myManageHook :: ManageHook
 myManageHook = composeAll
 	[ className =? "Gimp"	   --> doFloat
 	, isDialog				   --> doFloat
 	, className =? "librewolf" --> doShift ( myWorkspaces !! 1 )
+	, className =? "discord"   --> doShift ( myWorkspaces !! 3 )
+	, className =? "Steam"     --> doShift ( myWorkspaces !! 4 )
+	, className =? "firefox"   --> doShift ( myWorkspaces !! 7 )
 	, className =? "KeePassXC" --> doShift ( myWorkspaces !! 8 )
 	]
 
@@ -108,7 +126,7 @@ myLayout = smartBorders $ tiled ||| Mirror tiled ||| Full
 myStartupHook :: X ()
 myStartupHook = do
 	spawn "killall trayer"
-	spawn "sleep 0.01 && trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --alpha 30 --tint 0x000000 --height 10"
+	spawn "sleep 0.5 && trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --alpha 30 --tint 0x000000 --height 10"
 	spawnOnce "xscreensaver -no-splash"
 --	spawnOnce "nm-applet"
 	spawnOnce "dropbox"
