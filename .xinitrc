@@ -19,7 +19,7 @@ exec xsetroot -cursor_name left_ptr &
 
 
 #exec dbus-launch --sh-syntax --exit-with-session dwm > ~/.dwm.log
-exec dbus-launch --sh-syntax --exit-with-session xmonad
+exec dbus-launch --sh-syntax --exit-with-session xmonad >& /tmp/.xmonad-errors
 #exec dbus-launch --sh-syntax --exit-with-session cwm
 #exec dbus-launch --sh-syntax --exit-with-session herbstluftwm --locked
 

@@ -20,7 +20,7 @@ import XMonad.Util.SpawnOnce (spawnOnce) -- startup
 import XMonad.Util.Loggers
 
 import XMonad.Actions.CycleWS (toggleWS, nextWS, prevWS)
-import XMonad.Actions.WindowBringer
+import XMonad.Actions.WindowBringer (gotoMenu)
 
 import XMonad.Layout.NoBorders (smartBorders)
 
@@ -38,7 +38,8 @@ myTerminal = "urxvtc"
 myFocusFollowsMouse :: Bool
 myFocusFollowsMouse = False
 
-myWorkspaces = ["1","2","3","4","5","6","7","8","9"]
+-- note: workspace 0 added. access to implemented through keybinds below.
+myWorkspaces = ["1","2","3","4","5","6","7","8","9","0"]
 
 myNormalColor :: String
 myNormalColor = "#040a0a"
@@ -62,11 +63,12 @@ myKeys =
 
 	-- spawn applications using emacs-keybindings
 	, ("M-u l"  , spawn "librewolf"		)
-	, ("M-u s"  , spawn "steam"			)
-	, ("M-u d"  , spawn "discord"		)
-	, ("M-u k"  , spawn "keepassxc"		)
 	, ("M-u f"  , spawn "firefox-bin"	)
+	, ("M-u d"  , spawn "discord"		)
+	, ("M-u s"  , spawn "steam"			)
 	, ("M-u m"  , spawn "spotify"		)
+	, ("M-u p"  , spawn "keepassxc"		)
+	, ("M-u k"  , spawn "krita"			)
 
 	-- workspaces and windows
 	, ("M-<Tab>", toggleWS				)
@@ -91,6 +93,11 @@ myKeys =
 	, ("<XF86AudioRaiseVolume>"  , spawn "pactl set-sink-volume 0 +5%")
 	, ("<XF86AudioLowerVolume>"  , spawn "pactl set-sink-volume 0 -5%")
 	, ("<XF86AudioMute>"         , spawn "pactl set-sink-mute 0 toggle")
+
+	-- view and shift to workspace 0
+	, ("M-0"	, windows $ W.greedyView "0")
+	, ("M-S-0"	, windows $ W.shift      "0")
+
 	]
 
 
@@ -109,6 +116,7 @@ myManageHook = composeAll
 	, className =? "Steam"     --> doShift ( myWorkspaces !! 4 )
 	, className =? "firefox"   --> doShift ( myWorkspaces !! 7 )
 	, className =? "KeePassXC" --> doShift ( myWorkspaces !! 8 )
+	, className =? "krita"	   --> doShift ( myWorkspaces !! 9 )
 	]
 
 --
@@ -128,8 +136,7 @@ myStartupHook = do
 	spawn "killall trayer"
 	spawn "sleep 0.5 && trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --alpha 30 --tint 0x000000 --height 10"
 	spawnOnce "xscreensaver -no-splash"
---	spawnOnce "nm-applet"
-	spawnOnce "dropbox"
+--	spawnOnce "dropbox"
 
 
 --
