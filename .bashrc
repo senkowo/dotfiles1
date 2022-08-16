@@ -18,7 +18,7 @@ fi
 # Put your fun stuff here.
 
 # Autocompletion
-complete -cf doas 
+#complete -cf doas 
 
 # aliases
 #alias pluginstall-all="~/.local/bin/pluginstall-all.sh"

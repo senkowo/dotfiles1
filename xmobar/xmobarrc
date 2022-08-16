@@ -1,7 +1,7 @@
 Config { overrideRedirect = False
 
        , font = "xft:terminus-9"
-	   , additionalFonts = ["xft:FontAwesome-9"]
+	   , additionalFonts = ["xft:FontAwesome-9", "xft:IPAGothic-9"]
 
        , bgColor  = "#000000"
        , fgColor  = "white"
@@ -35,9 +35,10 @@ Config { overrideRedirect = False
 						, "-D", "intel_backlight"
 						] 60
 					, Run Com "sh" ["-c", "~/.config/xmobar/scripts/firejail-num.sh"] "firejail" 10
+					, Run Com "sh" ["-c", "~/.config/xmobar/scripts/volume"] "volume" 10
                     , Run XMonadLog
                     ]
        , sepChar  = "%"
        , alignSep = "}{"
-	   , template = " %XMonadLog% }{ fj: %firejail% | %bright% | %battery% | %date% "
+	   , template = " %XMonadLog% }{ fj: %firejail% | %volume% | %bright% | %battery% | %date% "
        }

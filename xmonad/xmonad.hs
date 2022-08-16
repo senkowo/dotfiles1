@@ -111,10 +111,10 @@ myManageHook :: ManageHook
 myManageHook = composeAll
 	[ className =? "Gimp"	   --> doFloat
 	, isDialog				   --> doFloat
-	, className =? "librewolf" --> doShift ( myWorkspaces !! 1 )
-	, className =? "discord"   --> doShift ( myWorkspaces !! 3 )
-	, className =? "Steam"     --> doShift ( myWorkspaces !! 4 )
-	, className =? "firefox"   --> doShift ( myWorkspaces !! 7 )
+	, className =? "librewolf" --> doShift ( myWorkspaces !! 6 )
+--	, className =? "discord"   --> doShift ( myWorkspaces !! 3 )
+--	, className =? "Steam"     --> doShift ( myWorkspaces !! 4 )
+--	, className =? "firefox"   --> doShift ( myWorkspaces !! 7 )
 	, className =? "KeePassXC" --> doShift ( myWorkspaces !! 8 )
 	, className =? "krita"	   --> doShift ( myWorkspaces !! 9 )
 	]
