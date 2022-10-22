@@ -2,13 +2,16 @@
 
 sh ~/.local/bin/pipewire-start.sh &
 sh ~/.local/bin/sct-auto-adjust.sh &
-exec ~/.fehbg &
+     exec ~/.fehbg &
+
 
 xrdb ~/.Xresources &
-exec urxvtd --quiet --opendisplay --fork &
+     exec urxvtd --quiet --opendisplay --fork &
+
 
 #picom & ### maybe not on dwm?
-exec xsetroot -cursor_name left_ptr &
+     exec xsetroot -cursor_name left_ptr &
+
 
 ## xmonad only?
 #exec trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent false --tint 0x5f5f5f --height 10 &
@@ -22,6 +25,7 @@ exec xsetroot -cursor_name left_ptr &
 exec dbus-launch --sh-syntax --exit-with-session xmonad >& /tmp/.xmonad-errors
 #exec dbus-launch --sh-syntax --exit-with-session cwm
 #exec dbus-launch --sh-syntax --exit-with-session herbstluftwm --locked
-
-
+#exec dbus-launch --sh-syntax --exit-with-session bspwm
+#exec dbus-launch --sh-syntax --exit-with-session river
+#exec dbus-launch river
 

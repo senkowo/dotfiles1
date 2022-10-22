@@ -1,10 +1,9 @@
 
-
-# default editor
+## default editor
 export EDITOR=nvim
 #export BROWSER=/usr/bin/librewolf
 
-# add to path
+## add to path
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cabal/bin:$PATH"
 
@@ -14,6 +13,8 @@ export PATH="$HOME/.cabal/bin:$PATH"
 #export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 # prevents fullscreen from minimizing?
 #export SDL_VIDEO_MINIMIZE_ON_FOCUS_LOSS=0
+# .NET telemetry optout
+DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # aliases
 alias pluginstall-all="~/.local/bin/pluginstall-all.sh"
@@ -24,8 +25,21 @@ alias doom='~/.emacs.d/bin/doom'
 #alias ls='ls --color'
 
 # more aliases
-alias l='exa'
-alias la='exa -a'
-alias ll='exa -lah'
-alias ls='exa --color=auto'
+alias l='exa --group-directories-first'
+alias la='exa -a --group-directories-first'
+alias ll='exa -lah --group-directories-first'
+alias ls='exa --color=auto --group-directories-first'
 
+alias neofetch-mod='neofetch --source ~/Pictures/icons/gentoo.png'
+
+#alias rm='trash-put'
+alias dl='trash-put'
+alias ts='trash-put'
+alias tn='trash-put'
+alias tm='trash-put'
+alias tj='trash-put'
+
+alias bottles-flatpak='flatpak run com.usebottles.bottles'
+alias digikam-flatpak='flatpak run org.kde.digikam'
+alias rawtherapee-flatpak='flatpak run com.rawtherapee.RawTherapee'
+alias darktable-flatpak='flatpak run org.darktable.Darktable'

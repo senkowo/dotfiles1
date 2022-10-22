@@ -27,6 +27,17 @@ fi
 #alias recompileurxvt='xrdb ~/.Xresources'
 #alias doom='~/.emacs.d/bin/doom'
 
+#########################
+### Putting stuff here ##
+
+#export EDITOR=nvim
+##export BROWSER=/usr/bin/librewolf
+
+#export PATH="$HOME/.local/bin:$PATH"
+#export PATH="$HOME/.cabal/bin:$PATH"
+
+#########################
+
 # import aliases
 [ -f "$HOME/.aliasrc" ] && source "$HOME/.aliasrc"
 

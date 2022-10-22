@@ -19,10 +19,10 @@ import XMonad.Util.Ungrab
 import XMonad.Util.SpawnOnce (spawnOnce) -- startup
 import XMonad.Util.Loggers
 
-import XMonad.Actions.CycleWS (toggleWS, nextWS, prevWS)
-import XMonad.Actions.WindowBringer (gotoMenu)
+import XMonad.Actions.CycleWS (toggleWS, nextWS, prevWS, emptyWS, moveTo, Direction1D(Next,Prev), WSType(Not, NonEmptyWS))
+import XMonad.Actions.WindowBringer (gotoMenu) -- for search for windows dmeunu
 
-import XMonad.Layout.NoBorders (smartBorders)
+import XMonad.Layout.NoBorders (smartBorders) -- smartborders
 
 import qualified XMonad.StackSet as W
 
@@ -60,28 +60,37 @@ myKeys :: [(String, X ())]
 myKeys = 
 	[ ("M-S-z", spawn "xscreensaver-command -lock")
 	, ("M-C-s", unGrab *> spawn "scrot -s -f -l style=dash '/home/senko/Pictures/Screenshots/%F-%T-$wx$h.png' -e 'xclip -selection clipboard -target image/png -in $f'")
+	, ("M-v b"	, spawn "pomo.sh start"		)
+	, ("M-v s"	, spawn "pomo.sh stop"		)
+	, ("M-v p"	, spawn "pomo.sh pause"		)
+	, ("M-v r"	, spawn "pomo.sh restart"	)
 
 	-- spawn applications using emacs-keybindings
-	, ("M-u l"  , spawn "librewolf"		)
-	, ("M-u f"  , spawn "firefox-bin"	)
-	, ("M-u d"  , spawn "discord"		)
-	, ("M-u s"  , spawn "steam"			)
-	, ("M-u m"  , spawn "spotify"		)
-	, ("M-u p"  , spawn "keepassxc"		)
-	, ("M-u k"  , spawn "krita"			)
+	, ("M-y l"  , spawn "librewolf"		)
+	, ("M-y f"  , spawn "firefox-bin"	)
+	, ("M-y d"  , spawn "discord"		)
+	, ("M-y s"  , spawn "steam"			)
+	, ("M-y m"  , spawn "spotify"		)
+	, ("M-y p"  , spawn "keepassxc"		)
+	, ("M-y k"  , spawn "krita"			)
+	, ("M-y e"	, spawn "emacs"			)
 
 	-- workspaces and windows
 	, ("M-<Tab>", toggleWS				)
+	, ("M-n"	, toggleWS				)
+	, ("M-m"	, toggleWS				)
 	, ("M-l"	, nextWS				)
 	, ("M-h"	, prevWS				)
 	, ("M-S-l"	, sendMessage Expand	)
 	, ("M-S-h"	, sendMessage Shrink	)
 	, ("M-S-<Return>", windows W.swapMaster)
 	, ("M-S-m", windows W.swapMaster)
+	, ("M-u"	, moveTo Prev NonEmptyWS)
+	, ("M-i"	, moveTo Next NonEmptyWS)
 
 	-- misc
 	, ("M-<Return>"	, spawn (myTerminal) )
-	, ("M-i"		, gotoMenu )
+	, ("M-b"		, gotoMenu )
 	, ("M-q"        , spawn "xmonad --recompile; killall xmobar; xmonad --restart" )
 
 	-- don't know what this does, move it elsewhere (originally M-n)
