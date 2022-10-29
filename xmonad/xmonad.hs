@@ -97,8 +97,8 @@ myKeys =
 	, ("M-S-n"	, refresh	)
 
 	-- system keys
-	, ("<XF86MonBrightnessUp>"   , spawn "xbacklight +10")
-	, ("<XF86MonBrightnessDown>" , spawn "xbacklight -10")
+	, ("<XF86MonBrightnessUp>"   , spawn "light -A 5")
+	, ("<XF86MonBrightnessDown>" , spawn "light -U 5")
 	, ("<XF86AudioRaiseVolume>"  , spawn "pactl set-sink-volume 0 +5%")
 	, ("<XF86AudioLowerVolume>"  , spawn "pactl set-sink-volume 0 -5%")
 	, ("<XF86AudioMute>"         , spawn "pactl set-sink-mute 0 toggle")
