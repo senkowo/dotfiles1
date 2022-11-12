@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
-(setq user-full-name "Femboy Fox"
-      user-mail-address "femboyfox621@gmail.com")
+(setq user-full-name "awoo"
+      user-mail-address "qtwebengine@gmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -35,10 +35,12 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-laserwave)
+;(setq doom-theme 'TransSide)
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -78,6 +80,15 @@
 ;; they are implemented.
 
 
+;; enable autosave
+(setq auto-save-default t)
+
+;; adjusts max columns from 80 to x
+(setq-default fill-column 100)
+
+;; treemacs
+(setq treemacs-width 30)
+
 ;; twittering-mode
 (after! twittering-mode
   (setq twittering-icon-mode t
@@ -86,25 +97,26 @@
 
 ;; mu4e - msmtp (SMTP forwarder)
 ; (mu init --my-address=corgiboi9898@gmail.com)
-(after! mu4e
-  (setq sendmail-program "/usr/bin/msmtp"
-      send-mail-function #'smtpmail-send-it
-      message-sendmail-f-is-evil t
-      message-sendmail-extra-arguments '("--read-envelope-from")
-      message-send-mail-function #'message-send-mail-with-sendmail)
-  (set-email-account!
-   "gmail"
-   '((mu4e-sent-folder       . "/[Gmail]/Sent Mail")
-     (mu4e-trash-folder      . "/[Gmail]/Bin")
-     (smtpmail-smtp-user     . "corgiboi9898@gmail.com"))
-   t)
-  (setq mu4e-get-mail-command "mbsync gmail"
-        ;; get emails and index every 5 minutes
-        mu4e-update-interval 300
-	;; send emails with format=flowed
-	mu4e-compose-format-flowed t
-	;; no need to run cleanup after indexing for gmail
-	mu4e-index-cleanup nil
-	mu4e-index-lazy-check t
-        ;; more sensible date format
-        mu4e-headers-date-format "%d.%m.%y"))
+
+;(after! mu4e
+;  (setq sendmail-program "/usr/bin/msmtp"
+;      send-mail-function #'smtpmail-send-it
+;      message-sendmail-f-is-evil t
+;      message-sendmail-extra-arguments '("--read-envelope-from")
+;      message-send-mail-function #'message-send-mail-with-sendmail)
+;  (set-email-account!
+;   "gmail"
+;   '((mu4e-sent-folder       . "/[Gmail]/Sent Mail")
+;     (mu4e-trash-folder      . "/[Gmail]/Bin")
+;     (smtpmail-smtp-user     . "corgiboi9898@gmail.com"))
+;   t)
+;  (setq mu4e-get-mail-command "mbsync gmail"
+;        ;; get emails and index every 5 minutes
+;        mu4e-update-interval 300
+;        ;; send emails with format=flowed
+;        mu4e-compose-format-flowed t
+;        ;; no need to run cleanup after indexing for gmail
+;        mu4e-index-cleanup nil
+;        mu4e-index-lazy-check t
+;        ;; more sensible date format
+;        mu4e-headers-date-format "%d.%m.%y"))

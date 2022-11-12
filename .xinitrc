@@ -1,6 +1,7 @@
 #!/bin/sh
 
 sh ~/.local/bin/pipewire-start.sh &
+
 sh ~/.local/bin/sct-auto-adjust.sh &
      exec ~/.fehbg &
 
@@ -21,8 +22,8 @@ xrdb ~/.Xresources &
 #fi
 
 
-#exec dbus-launch --sh-syntax --exit-with-session dwm > ~/.dwm.log
-exec dbus-launch --sh-syntax --exit-with-session xmonad >& /tmp/.xmonad-errors
+exec dbus-launch --sh-syntax --exit-with-session dwm > ~/.dwm.log
+#exec dbus-launch --sh-syntax --exit-with-session xmonad >& /tmp/.xmonad-errors
 #exec dbus-launch --sh-syntax --exit-with-session cwm
 #exec dbus-launch --sh-syntax --exit-with-session herbstluftwm --locked
 #exec dbus-launch --sh-syntax --exit-with-session bspwm
