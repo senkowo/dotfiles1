@@ -6,6 +6,7 @@ export EDITOR=nvim
 ## add to path
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cabal/bin:$PATH"
+export PATH="$HOME/.guix-profile/bin:$PATH"
 
 ## more exports
 #
@@ -30,7 +31,10 @@ alias la='exa -a --group-directories-first'
 alias ll='exa -lah --group-directories-first'
 alias ls='exa --color=auto --group-directories-first'
 
+alias b='cd ..'
+
 alias neofetch-mod='neofetch --source ~/Pictures/icons/gentoo.png'
+alias fixmerge='git mergetool --tool nvimdiff'
 
 #alias rm='trash-put'
 alias dl='trash-put'

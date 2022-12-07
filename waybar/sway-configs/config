@@ -1,0 +1,61 @@
+
+// Waybar Config //
+
+{
+	"layer": "bottom",
+
+	// "margin": "4px 300px",
+	// "spacing": 8,
+    "modules-left": ["sway/workspaces", "sway/window"],
+    "modules-center": [],
+    "modules-right": ["custom/firejail", "backlight", "pulseaudio", "battery", "clock", "clock#time", "clock#line"],
+
+	//"modules-left": ["river/tags", "river/window"],
+    //"modules-center": ["sway/window"],
+
+    "sway/window": {
+		"format": " {}",
+        "max-length": 50
+    },
+    "clock": {
+		"format": "{:%a %b %d |}"
+    },
+    "clock#time": {
+		"format": "{:%H:%M}"
+    },
+    "clock#line": {
+		"format": "{:|}"
+    },
+	"custom/firejail": {
+		"format": "fj: {} |",
+		"exec": "~/.local/bin/firejail-print-num.sh"
+	},
+    "battery": {
+		"states": {
+			"good": 95,
+			"warning": 10,
+			"critical": 5,
+		},
+		"format": "{icon} {capacity}% |",
+        "format-charging": "{icon}  |",
+        "format-plugged": "{icon}  |",
+        "format-full": "Full  |",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}% |",
+        "format-bluetooth": "{volume}% {icon} |",
+        "format-muted": "MUTE  |",
+        "format-icons": {
+            "headphones": "",
+            "default": ["", ""]
+        },
+        "on-click": "amixer sset Master toggle",
+        "tooltip": false,
+        "on-click-right": "pavucontrol"
+    },
+    "backlight": {
+        "format": "{icon} {percent}% |",
+        "format-icons": [""],
+    },
+}

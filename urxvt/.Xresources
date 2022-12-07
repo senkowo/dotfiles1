@@ -12,8 +12,12 @@ URxvt.font: xft:Hack:size=11
 !URxvt.letterSpace:-1
 !URxvt.letterSpace: 0
 ! Transparency
-!URxvt*depth: 32
-!URxvt.background: [65]#000000
+!URxvt.depth: 32
+!URxvt.background: [90]#191d1f
+! Alt-Transparency
+!URxvt*inheritPixmap: true
+!URxvt*transparent: true
+!URxvt*shading: 30
 ! Scrollbar
 URxvt.scrollstyle: plain
 URxvt.scrollBar: false

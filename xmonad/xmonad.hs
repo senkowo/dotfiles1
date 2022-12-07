@@ -152,7 +152,6 @@ myStartupHook = do
 ------------------------------------------------------------------
 --
 
-
 myXmobarPP :: PP
 myXmobarPP = def
     { ppSep             = magenta " • "
@@ -180,7 +179,6 @@ myXmobarPP = def
     yellow   = xmobarColor "#f1fa8c" ""
     red      = xmobarColor "#ff5555" ""
     lowWhite = xmobarColor "#bbbbbb" ""
-
 
 --
 ------------------------------------------------------------------

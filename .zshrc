@@ -46,12 +46,10 @@ preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 [ -f "$HOME/.aliasrc" ] && source "$HOME/.aliasrc"
 
 
-
-
-
-
-
 # syntax highlighting plugin (https://github.com/zsh-users/zsh-syntax-highlighting)
 source /usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh
+
+
+
 
 
