@@ -21,6 +21,7 @@ import XMonad.Util.Loggers
 
 import XMonad.Actions.CycleWS (toggleWS, nextWS, prevWS, emptyWS, moveTo, Direction1D(Next,Prev), WSType(Not, NonEmptyWS))
 import XMonad.Actions.WindowBringer (gotoMenu) -- for search for windows dmeunu
+import XMonad.Actions.UpdatePointer -- for warp clone
 
 import XMonad.Layout.NoBorders (smartBorders) -- smartborders
 
@@ -36,7 +37,7 @@ myTerminal :: String
 myTerminal = "urxvtc"
 
 myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = False
+myFocusFollowsMouse = True
 
 -- note: workspace 0 added. access to implemented through keybinds below.
 myWorkspaces = ["1","2","3","4","5","6","7","8","9","0"]
@@ -120,7 +121,7 @@ myManageHook :: ManageHook
 myManageHook = composeAll
 	[ className =? "Gimp"	   --> doFloat
 	, isDialog				   --> doFloat
-	, className =? "librewolf" --> doShift ( myWorkspaces !! 6 )
+--	, className =? "librewolf" --> doShift ( myWorkspaces !! 6 )
 --	, className =? "discord"   --> doShift ( myWorkspaces !! 3 )
 --	, className =? "Steam"     --> doShift ( myWorkspaces !! 4 )
 --	, className =? "firefox"   --> doShift ( myWorkspaces !! 7 )
@@ -143,7 +144,7 @@ myLayout = smartBorders $ tiled ||| Mirror tiled ||| Full
 myStartupHook :: X ()
 myStartupHook = do
 	spawn "killall trayer"
-	spawn "sleep 0.5 && trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --alpha 30 --tint 0x000000 --height 10"
+	spawn "sleep 0.5 && trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --alpha 30 --tint 0x000000 --height 11"
 	spawnOnce "xscreensaver -no-splash"
 --	spawnOnce "dropbox"
 
@@ -154,7 +155,7 @@ myStartupHook = do
 
 myXmobarPP :: PP
 myXmobarPP = def
-    { ppSep             = magenta " • "
+{-    { ppSep             = magenta " • "
     , ppTitleSanitize   = xmobarStrip
     , ppCurrent         = wrap " " "" . xmobarBorder "Top" "#8be9fd" 2
     , ppHidden          = white . wrap " " ""
@@ -179,6 +180,7 @@ myXmobarPP = def
     yellow   = xmobarColor "#f1fa8c" ""
     red      = xmobarColor "#ff5555" ""
     lowWhite = xmobarColor "#bbbbbb" ""
+-}
 
 --
 ------------------------------------------------------------------
@@ -189,7 +191,7 @@ main :: IO ()
 main = xmonad
 	 . ewmhFullscreen
 	 . ewmh
-     . withEasySB (statusBarProp "xmobar ~/.config/xmobar/xmobarrc" (pure def)) toggleStrutsKey
+	 . withEasySB (statusBarProp "xmobar ~/.config/xmobar/xmobarrc" (pure def)) toggleStrutsKey
 	 $ myConfig
   where
 	toggleStrutsKey :: XConfig Layout -> (KeyMask, KeySym)
@@ -205,6 +207,7 @@ myConfig = def
 	, manageHook		 = myManageHook <+> manageDocks
 	, layoutHook		 = myLayout  -- Use custom layouts
 	, startupHook		 = myStartupHook
+	, logHook			 = updatePointer (0.5, 0.5) (0, 0)
 	} `additionalKeysP` myKeys
 
 
