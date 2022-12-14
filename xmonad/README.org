@@ -1,3 +1,25 @@
+#+TITLE: Xmonad Configuration
+#+PROPERTY: header-args :tangle xmonad.hs
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* Table of Contents :toc:
+- [[#about-this-config][About This Config]]
+- [[#imports][Imports]]
+- [[#variables][Variables]]
+- [[#keybinds][Keybinds]]
+- [[#mymanagehook][myManageHook]]
+- [[#mylayouthook][myLayoutHook]]
+- [[#mystartuphook][myStartupHook]]
+- [[#myloghook][myLogHook]]
+- [[#myxmobarpp][myXmobarPP]]
+- [[#main][Main]]
+
+* About This Config
+This config is an org document
+
+* Imports
+#+begin_src haskell
 -- XMONAD CONFIG
 
 --
@@ -29,6 +51,11 @@ import XMonad.Layout.NoBorders (smartBorders) -- smartborders
 
 import qualified XMonad.StackSet as W
 
+#+end_src
+
+* Variables
+#+begin_src haskell
+
 --
 -- [ Settings ] -------------------------------------------------------
 --
@@ -50,6 +77,11 @@ myFocusedColor = "#1e9c8f"
 -- #1e9c8f
 -- #157b8f
 --
+
+#+end_src
+
+* Keybinds
+#+begin_src haskell
 
 --
 -- [ Keys ] -----------------------------------------------------------
@@ -108,6 +140,10 @@ myKeys =
 
 	]
 
+#+end_src
+* myManageHook
+#+begin_src haskell
+
 --
 -- [ ManageHook ] -----------------------------------------------------
 --
@@ -124,6 +160,10 @@ myManageHook = composeAll
 --, className =? "krita"     --> doShift ( myWorkspaces !! 9 )
   ]
 
+#+end_src
+* myLayoutHook
+#+begin_src haskell
+
 --
 -- [ Layout ] ---------------------------------------------------------
 --
@@ -134,6 +174,10 @@ myLayout = smartBorders $ tiled ||| Mirror tiled ||| Full
     nmaster = 1      -- Default number of windows in the master pane
     ratio   = 1/2    -- Default proportion of screen occupied by master pane
     delta   = 3/100  -- Percent of screen to increment by when resizing panes
+
+#+end_src
+* myStartupHook
+#+begin_src haskell
 
 --
 -- [ Startup ] --------------------------------------------------------
@@ -146,12 +190,20 @@ myStartupHook = do
   spawnOnce "xscreensaver -no-splash"
 --spawnOnce "dropbox"
 
+#+end_src
+* myLogHook
+#+begin_src haskell
+
 --
 -- [ LogHook ] --------------------------------------------------------
 --
 
 myLogHook :: X ()
 myLogHook = updatePointer (0.5, 0.5) (0, 0)
+
+#+end_src
+* myXmobarPP
+#+begin_src haskell
 
 --
 -- [ Xmobar ] ---------------------------------------------------------
@@ -186,6 +238,10 @@ myXmobarPP = def
     lowWhite = xmobarColor "#bbbbbb" ""
 -}
 
+#+end_src
+* Main
+#+begin_src haskell
+
 --
 -- [ Main ] -----------------------------------------------------------
 --
@@ -212,3 +268,5 @@ myConfig = def
   , startupHook        = myStartupHook
   , logHook            = myLogHook
   } `additionalKeysP` myKeys
+
+#+end_src

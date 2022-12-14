@@ -95,28 +95,18 @@
       twittering-convert-fix-size 48
       twittering-use-icon-storage t))
 
-;; mu4e - msmtp (SMTP forwarder)
-; (mu init --my-address=corgiboi9898@gmail.com)
+;; auto-tangle
+(use-package! org-auto-tangle
+  :defer t
+  :hook (org-mode . org-auto-tangle-mode))
 
-;(after! mu4e
-;  (setq sendmail-program "/usr/bin/msmtp"
-;      send-mail-function #'smtpmail-send-it
-;      message-sendmail-f-is-evil t
-;      message-sendmail-extra-arguments '("--read-envelope-from")
-;      message-send-mail-function #'message-send-mail-with-sendmail)
-;  (set-email-account!
-;   "gmail"
-;   '((mu4e-sent-folder       . "/[Gmail]/Sent Mail")
-;     (mu4e-trash-folder      . "/[Gmail]/Bin")
-;     (smtpmail-smtp-user     . "corgiboi9898@gmail.com"))
-;   t)
-;  (setq mu4e-get-mail-command "mbsync gmail"
-;        ;; get emails and index every 5 minutes
-;        mu4e-update-interval 300
-;        ;; send emails with format=flowed
-;        mu4e-compose-format-flowed t
-;        ;; no need to run cleanup after indexing for gmail
-;        mu4e-index-cleanup nil
-;        mu4e-index-lazy-check t
-;        ;; more sensible date format
-;        mu4e-headers-date-format "%d.%m.%y"))
+;; move window focus with ctrl-alt-<arrow>
+(use-package! windmove
+  :ensure nil
+  :bind
+  (("C-M-h". windmove-left)
+   ("C-M-l". windmove-right)
+   ("C-M-k". windmove-up)
+   ("C-M-j". windmove-down)))
+
+(map! :map 'local "M-o" #'other-window)
