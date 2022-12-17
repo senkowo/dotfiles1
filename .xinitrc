@@ -31,6 +31,8 @@ sh ~/.local/bin/pipewire-start.sh & # audio
 exec urxvtd --quiet --opendisplay --fork & # term
 xrdb ~/.Xresources &
 
+exec emacs --daemon &
+
 exec ~/.fehbg & # wallpaper
 sh ~/.local/bin/sct-auto-adjust.sh & # redshift
 

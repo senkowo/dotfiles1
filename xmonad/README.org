@@ -97,14 +97,14 @@ myKeys =
   , ("M-v r", spawn "pomo.sh restart"     )
 
   -- spawn applications using emacs-keybindings
-  , ("M-o l"  , spawn "librewolf"		)
-  , ("M-o f"  , spawn "firefox-bin"	)
-  , ("M-o d"  , spawn "discord"		)
-  , ("M-o s"  , spawn "steam"			)
-  , ("M-o m"  , spawn "spotify"		)
-  , ("M-o p"  , spawn "keepassxc"		)
-  , ("M-o k"  , spawn "krita"			)
-  , ("M-o e"  , spawn "emacs"			)
+  , ("M-o l"  , spawn "librewolf"         )
+  , ("M-o f"  , spawn "firefox-bin"       )
+  , ("M-o d"  , spawn "discord"           )
+  , ("M-o s"  , spawn "steam"             )
+  , ("M-o m"  , spawn "spotify"           )
+  , ("M-o p"  , spawn "keepassxc"         )
+  , ("M-o k"  , spawn "krita"             )
+  , ("M-o e"  , spawn "emacsclient -c -a ''")
 
 	-- workspaces and windows
 	, ("M-<Tab>", toggleWS				)
@@ -156,7 +156,8 @@ myManageHook = composeAll
 --, className =? "discord"   --> doShift ( myWorkspaces !! 3 )
 --, className =? "Steam"     --> doShift ( myWorkspaces !! 4 )
 --, className =? "firefox"   --> doShift ( myWorkspaces !! 7 )
---, className =? "KeePassXC" --> doShift ( myWorkspaces !! 8 )
+  , className =? "KeePassXC" --> doShift ( myWorkspaces !! 8 )
+  , [(className =? "KeePassXC" <&&> resource =? "Dialog") --> doShift ( myWorkspaces !! 2 )] -- test
 --, className =? "krita"     --> doShift ( myWorkspaces !! 9 )
   ]
 
@@ -264,7 +265,7 @@ myConfig = def
   , normalBorderColor  = myNormalColor
   , focusedBorderColor = myFocusedColor
   , layoutHook         = myLayout  -- Use custom layouts
-  , manageHook         = insertPosition Above Newer <> myManageHook <+> manageDocks
+  , manageHook         = insertPosition Below Newer <> myManageHook <+> manageDocks
   , startupHook        = myStartupHook
   , logHook            = myLogHook
   } `additionalKeysP` myKeys

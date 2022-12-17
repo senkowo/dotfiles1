@@ -90,23 +90,57 @@
 (setq treemacs-width 30)
 
 ;; twittering-mode
-(after! twittering-mode
-  (setq twittering-icon-mode t
-      twittering-convert-fix-size 48
-      twittering-use-icon-storage t))
+;;(after! twittering-mode
+;;  (setq twittering-icon-mode t
+;;      twittering-convert-fix-size 48
+;;      twittering-use-icon-storage t))
 
 ;; auto-tangle
 (use-package! org-auto-tangle
   :defer t
   :hook (org-mode . org-auto-tangle-mode))
 
-;; move window focus with ctrl-alt-<arrow>
-(use-package! windmove
-  :ensure nil
-  :bind
-  (("C-M-h". windmove-left)
-   ("C-M-l". windmove-right)
-   ("C-M-k". windmove-up)
-   ("C-M-j". windmove-down)))
+;; move window focus
+(map! "C-M h" #'windmove-left
+      "C-M l" #'windmove-right
+      "C-M k" #'windmove-up
+      "C-M j" #'windmove-down
+      "C-M o" #'other-window)
 
-(map! :map 'local "M-o" #'other-window)
+;; org-agenda
+(after! org
+  (setq org-agenda-files '("~/Documents/org/agenda/")))
+
+;; erc
+;;(map! :map 'global "SPC d e" #'erc-tls)
+(after! erc
+  (setq erc-prompt (lambda () (concat "[" (buffer-name) "]"))
+        erc-server "irc.libera.chat"
+      ;;erc-autojoin-channels-alist '(("irc.libera.chat" "#emacs" "#linux"))
+      ;;erc-nick "senko"
+      ;;erc-user-full-name ""
+      ;; By default, ERC selects the channel buffers when it reconnects. If you'd like it to connect to channels in the background, use this:
+      ;;erc-auto-query 'bury
+      ;;erc-fill-column 100
+      erc-fill-function 'erc-fill-static ; align
+      ;;erc-fill-static-center 20          ; align
+      ))
+
+;; dired
+
+
+;; user keybinds
+(map! :leader
+      (:prefix ("k" . "user-keybinds")
+       :desc "clipboard-yank" "p" #'clipboard-yank
+       (:prefix ("o" . "open")
+        :desc "erc-tls" "e" #'erc-tls))
+)
+
+;; startup
+;; fix workspaces start in main with emacsclient? (doesn't work...)
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+;; fix to show bar with emacsclient (should be fixed in the next update of centaur-tabs)
+(after! centaur-tabs
+  (setq centaur-tabs-set-bar 'right))
