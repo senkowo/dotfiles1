@@ -50,3 +50,4 @@
 ;(unpin! t)
 
 (package! org-auto-tangle)
+(package! peep-dired)

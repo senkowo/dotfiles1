@@ -1,7 +1,35 @@
+#+TITLE: Doom Emacs Config
+#+PROPERTY: header-args :tangle config.el
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* Table of Contents :toc:
+- [[#about][About]]
+- [[#help][Help]]
+- [[#general][General]]
+- [[#editor][Editor]]
+- [[#fonts][Fonts]]
+- [[#misc][Misc]]
+- [[#org][Org]]
+  - [[#auto-tangle][auto-tangle]]
+- [[#applications][Applications]]
+  - [[#erc][erc]]
+  - [[#treemacs][Treemacs]]
+  - [[#dired][dired]]
+  - [[#twittering-mode][Twittering-mode]]
+- [[#keybinds][Keybinds]]
+- [[#startup][Startup]]
+- [[#fixes][Fixes]]
+
+* About
+This is the main Doom Emacs Config
+#+begin_src emacs-lisp
 ;;------------------------------------;;
 ;; NOTE: USE THE ORG DOCUMENT TO EDIT ;;
 ;;------------------------------------;;
-
+#+end_src
+* Help
+#+begin_src emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
@@ -83,6 +111,9 @@
 
 ;;; BEGIN CONFIG ---------------------
 
+#+end_src
+* General
+#+begin_src emacs-lisp
 ;; set user info
 (setq user-full-name "awoo"
       user-mail-address "uwu@owo")
@@ -110,7 +141,10 @@
       make-backup-files t)
 
 ;------------------------------------
+#+end_src
 
+* Editor
+#+begin_src emacs-lisp
 ;; adjusts max columns from 80 to x
 (setq-default fill-column 100)
 
@@ -126,7 +160,9 @@
 ;(setq global-auto-revert-non-file-buffers t)
 
 ;------------------------------------
-
+#+end_src
+* Fonts
+#+begin_src emacs-lisp
 ;; set fonts
 (setq doom-font (font-spec :family "Jetbrains Mono" :size 13)
       ;doom-variable-pitch-font (font-spec :family "Hack" :height 1.0))
@@ -143,10 +179,19 @@
   (set-face-attribute 'variable-pitch nil :height 0.9))
 
 ;------------------------------------
-
+#+end_src
+* Misc
+#+begin_src emacs-lisp
 ;; search provider
 (add-to-list '+lookup-provider-url-alist '("LibreX" "https://librex.mikata.ru/search.php?q=%s"))
 
+#+end_src
+
+#+RESULTS:
+
+* Org
+** auto-tangle
+#+begin_src emacs-lisp
 ;; org directory
 (setq org-directory "~/Documents/org/")
 
@@ -165,7 +210,10 @@
   :hook (org-mode . org-auto-tangle-mode))
 
 ;------------------------------------
-
+#+end_src
+* Applications
+** erc
+#+begin_src emacs-lisp
 ;; erc
 ;;(map! :map 'global "SPC d e" #'erc-tls)
 (after! erc
@@ -183,12 +231,16 @@
         ))
 
 ;------------------------------------
-
+#+end_src
+** Treemacs
+#+begin_src emacs-lisp
 ;; treemacs
 (setq treemacs-width 30)
 
 ;------------------------------------
-
+#+end_src
+** dired
+#+begin_src emacs-lisp
 ;; dired keybinds
 (map! :leader
       (:prefix ("d" . "dired")
@@ -208,7 +260,9 @@
                               ("mp4" . "mpv")))
 
 ;------------------------------------
-
+#+end_src
+** Twittering-mode
+#+begin_src emacs-lisp
 ;; twittering-mode
 ;;(after! twittering-mode
 ;;  (setq twittering-icon-mode t
@@ -216,7 +270,9 @@
 ;;      twittering-use-icon-storage t))
 
 ;------------------------------------
-
+#+end_src
+* Keybinds
+#+begin_src emacs-lisp
 ;; move window focus
 (use-package windmove
   :bind
@@ -240,7 +296,10 @@
         :desc "erc-tls" "e" #'erc-tls)))
 
 ;------------------------------------
-
+#+end_src
+* Startup
+* Fixes
+#+begin_src emacs-lisp
 ;; fix workspaces start in main with emacsclient?
 (after! persp-mode
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
@@ -252,3 +311,4 @@
   ;(add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
 ;------------------------------------
+#+end_src

@@ -6,22 +6,23 @@
 
 import XMonad
 
-import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.EwmhDesktops --ewmh
 
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.StatusBar
-import XMonad.Hooks.StatusBar.PP
-import XMonad.Hooks.ManageDocks (manageDocks) -- no overlap bar
-import XMonad.Hooks.InsertPosition -- spawn below
+import XMonad.Hooks.DynamicLog --deprecated compatibility wrapper for StatusBar
+import XMonad.Hooks.StatusBar --output info to xmobar
+import XMonad.Hooks.StatusBar.PP --pretty print xmobar
+import XMonad.Hooks.ManageDocks (manageDocks) --no overlap bar, manage bar
+import XMonad.Hooks.InsertPosition --spawn below
+import XMonad.Hooks.ManageHelpers (isDialog) --if-do, helpers for ManageHook
+import XMonad.Hooks.RefocusLast (refocusLastLayoutHook, toggleFocus) --toggle to previous window
 
-import XMonad.Hooks.ManageHelpers (isDialog) -- startup
+import XMonad.Util.EZConfig (additionalKeysP) --keys
+import XMonad.Util.Ungrab --release keyboard grab
+import XMonad.Util.SpawnOnce (spawnOnce) --only on startup and ignore again
+import XMonad.Util.Loggers --ppExtras extra formatting + loggers
 
-import XMonad.Util.EZConfig (additionalKeysP) -- keys
-import XMonad.Util.Ungrab
-import XMonad.Util.SpawnOnce (spawnOnce) -- startup
-import XMonad.Util.Loggers
-
-import XMonad.Actions.CycleWS (toggleWS, nextWS, prevWS, emptyWS, moveTo, Direction1D(Next,Prev), WSType(Not, NonEmptyWS))
+--                             toggle    next    prev    moveTo  Data Next/Prev          Not          isEmpty  WinMoveToAdjacent
+import XMonad.Actions.CycleWS (toggleWS, nextWS, prevWS, moveTo, Direction1D(Next,Prev), WSType(Not), emptyWS, shiftToNext, shiftToPrev)
 import XMonad.Actions.WindowBringer (gotoMenu) -- for search for windows dmeunu
 import XMonad.Actions.UpdatePointer -- for warp clone
 
@@ -72,41 +73,51 @@ myKeys =
   , ("M-o m"  , spawn "spotify"           )
   , ("M-o p"  , spawn "keepassxc"         )
   , ("M-o k"  , spawn "krita"             )
-  , ("M-o e"  , spawn "emacsclient -c -a ''")
+  , ("M-o M-o"  , spawn "emacsclient -c -a ''")
 
-	-- workspaces and windows
-	, ("M-<Tab>", toggleWS				)
-	, ("M-n"	, toggleWS				)
-	, ("M-m"	, toggleWS				)
-	, ("M-l"	, nextWS				)
-	, ("M-h"	, prevWS				)
-	, ("M-S-l"	, sendMessage Expand	)
-	, ("M-S-h"	, sendMessage Shrink	)
-	, ("M-S-<Return>", windows W.swapMaster)
-	, ("M-S-m", windows W.swapMaster)
-	, ("M-u"	, moveTo Prev NonEmptyWS)
-	, ("M-i"	, moveTo Next NonEmptyWS)
+  -- << workspaces, layout, and windows >>
+  -- workspaces
+  , ("M-<Tab>", toggleWS      )
+  , ("M-m"  , toggleWS        )
+  , ("M-l"  , nextWS          )
+  , ("M-h"  , prevWS          )
+  , ("M-u"  , moveTo Prev (Not emptyWS))
+  , ("M-i"  , moveTo Next (Not emptyWS))
+  -- layout
+  , ("M-S-u"  , sendMessage Shrink  )
+  , ("M-S-i"  , sendMessage Expand  )
+  -- window move workspace
+  , ("M-S-h" , shiftToPrev)
+  , ("M-S-l" , shiftToNext)
+  -- window focus
+  , ("M-n"  , toggleFocus)
+  -- window move local
+  , ("M-S-<Return>", windows W.swapMaster)
+  , ("M-S-m"       , windows W.swapMaster)
+  -- TEST
+  , ("M-C-h" , moveTo Prev (emptyWS))
+  , ("M-C-l" , moveTo Next (emptyWS))
 
-	-- misc
-	, ("M-<Return>"	, spawn (myTerminal) )
-	, ("M-b"		, gotoMenu )
-	, ("M-q"        , spawn "xmonad --recompile; killall xmobar; xmonad --restart" )
+  -- misc
+  , ("M-<Return>"  , spawn (myTerminal) )
+  , ("M-b"   , gotoMenu )
+  , ("M-q"   , spawn "xmonad --recompile; killall xmobar; xmonad --restart" )
 
-	-- don't know what this does, move it elsewhere (originally M-n)
-	, ("M-S-n"	, refresh	)
+  -- don't know what this does, move it elsewhere (originally M-n)
+  , ("M-S-n"  , refresh  )
 
-	-- system keys
-	, ("<XF86MonBrightnessUp>"   , spawn "light -A 5")
-	, ("<XF86MonBrightnessDown>" , spawn "light -U 5")
-	, ("<XF86AudioRaiseVolume>"  , spawn "pactl set-sink-volume 0 +5%")
-	, ("<XF86AudioLowerVolume>"  , spawn "pactl set-sink-volume 0 -5%")
-	, ("<XF86AudioMute>"         , spawn "pactl set-sink-mute 0 toggle")
+  -- system keys
+  , ("<XF86MonBrightnessUp>"   , spawn "light -A 5")
+  , ("<XF86MonBrightnessDown>" , spawn "light -U 5")
+  , ("<XF86AudioRaiseVolume>"  , spawn "pactl set-sink-volume 0 +5%")
+  , ("<XF86AudioLowerVolume>"  , spawn "pactl set-sink-volume 0 -5%")
+  , ("<XF86AudioMute>"         , spawn "pactl set-sink-mute 0 toggle")
 
-	-- view and shift to workspace 0
-	, ("M-0"	, windows $ W.greedyView "0")
-	, ("M-S-0"	, windows $ W.shift      "0")
+  -- view and shift to workspace 0
+  , ("M-0"    , windows $ W.greedyView "0")
+  , ("M-S-0"  , windows $ W.shift      "0")
 
-	]
+  ]
 
 --
 -- [ ManageHook ] -----------------------------------------------------
@@ -121,7 +132,6 @@ myManageHook = composeAll
 --, className =? "Steam"     --> doShift ( myWorkspaces !! 4 )
 --, className =? "firefox"   --> doShift ( myWorkspaces !! 7 )
   , className =? "KeePassXC" --> doShift ( myWorkspaces !! 8 )
-  , [(className =? "KeePassXC" <&&> resource =? "Dialog") --> doShift ( myWorkspaces !! 2 )] -- test
 --, className =? "krita"     --> doShift ( myWorkspaces !! 9 )
   ]
 
@@ -208,7 +218,7 @@ myConfig = def
   , workspaces         = myWorkspaces
   , normalBorderColor  = myNormalColor
   , focusedBorderColor = myFocusedColor
-  , layoutHook         = myLayout  -- Use custom layouts
+  , layoutHook         = refocusLastLayoutHook $ myLayout
   , manageHook         = insertPosition Below Newer <> myManageHook <+> manageDocks
   , startupHook        = myStartupHook
   , logHook            = myLogHook
